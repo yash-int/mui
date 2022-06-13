@@ -1,0 +1,14 @@
+{
+    "data":[
+        [{"id":1,"first_name":"Arlyn","last_name":"Camocke","email":"acamocke0@telegraph.co.uk","gender":"Genderqueer"},
+            {"id":2,"first_name":"Elliott","last_name":"Hampshire","email":"ehampshire1@topsy.com","gender":"Male"},
+            {"id":3,"first_name":"Brandais","last_name":"Standish","email":"bstandish2@ameblo.jp","gender":"Female"},
+            {"id":4,"first_name":"Bernardine","last_name":"Ridout","email":"bridout3@tripadvisor.com","gender":"Female"},
+            {"id":5,"first_name":"Lorianne","last_name":"Yakunikov","email":"lyakunikov4@europa.eu","gender":"Female"},
+            {"id":6,"first_name":"Kit","last_name":"Huikerby","email":"khuikerby5@bloglovin.com","gender":"Female"},
+            {"id":7,"first_name":"Hammad","last_name":"Alyokhin","email":"halyokhin6@washingtonpost.com","gender":"Male"},
+            {"id":8,"first_name":"El","last_name":"Tudbald","email":"etudbald7@nih.gov","gender":"Male"},
+            {"id":9,"first_name":"Sumner","last_name":"Ray","email":"sray8@constantcontact.com","gender":"Male"},
+            {"id":10,"first_name":"Aluin","last_name":"Edgecombe","email":"aedgecombe9@uol.com.br","gender":"Male"}]
+    ]
+}
