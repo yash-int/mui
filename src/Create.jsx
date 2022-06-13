@@ -1,15 +1,19 @@
 import * as React from "react";
+import InfoIcon from '@mui/icons-material/Info';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-
+import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
-import Input from "@mui/material/Input";
-import InputAdornment from "@mui/material/InputAdornment";
-import { FaBeer } from "react-icons/fa";
+import Popover from '@mui/material/Popover';
+import { useState } from "react";
+
+import CloseIcon from '@mui/icons-material/Close';
+
+
 
 export default function Create() {
   const [open, setOpen] = React.useState(false);
@@ -20,6 +24,7 @@ export default function Create() {
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [ibutton,setIbutton]=useState(null)
 
   // this is inside create user button close  button
   const handleClose = () => {
@@ -34,6 +39,18 @@ export default function Create() {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+
+  const handleIclose = () => {
+    setIbutton(null);
+  };
+  const handleIopen=(e)=>{
+    setIbutton(e.currentTarget)
+  }
+
+  const openI = Boolean(ibutton);
+  const id = openI ? 'simple-popover' : undefined;
+
 
   console.log(firstName, lastName, email, phone);
 
@@ -117,9 +134,7 @@ export default function Create() {
                 label="Firstname"
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
-                helperText={firstName === "" ? "firstname is mandatory" : ""}
-
-                // placeholder="type your first name"
+                
               />
               <TextField
                 variant="outlined"
@@ -136,21 +151,49 @@ export default function Create() {
                 }}
               />
 
-              <Input
+              <TextField
                 required
                 id="outlined-password-input"
                 label="Password"
-                startAdornment={
-                  <InputAdornment position="end">
-                    {/* <IoInformationCircle />
-                     */}
-                  </InputAdornment>
-                }
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <InfoIcon 
+                      aria-describedby={id}
+                      onClick={handleIopen}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
                 />
-                {/* <FaBeer/> */}
+                <Popover
+                      id={id}
+                      open={openI}
+                      ibutton={ibutton}
+                      onClose={handleIclose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }}
+                    >
+                      
+                      <div >
+                      <CloseIcon sx={{marginLeft:"540px"}} onClick={handleIclose}/>
+                      <ul style={{margin:"20px"}}>
+                        <h4>Password criteria should be as below:</h4>
+                        <li>Should contain at least 6 characters</li>
+                        <li>Should be alphanumeric</li>
+                        <li>Should contain at least one special character</li>
+                        <li>Should contain one letter in caps</li>
+                        <li>Should have a maximum character limit of 15 characters</li>
+                      </ul>
+                      
+                      </div>
+                    </Popover>
+                
               <TextField
                 required
                 variant="outlined"
@@ -158,6 +201,10 @@ export default function Create() {
                 type={"number"}
                 onChange={(e) => setPhone(e.target.value)}
               />
+
+
+
+
             </Box>
           </Box>
         </DialogContent>
