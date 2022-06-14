@@ -7,8 +7,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import { ToastContainer, toast } from "react-toastify";
 
-export default function MaxWidthDialog({ toogleStatus, id,editScreen,setEditScreen}) {
+export default function MaxWidthDialog({ toogleStatus, id,editScreen,setEditScreen,deleteUsers}) {
 // console.log("Status",status)
 
   const data = false;
@@ -70,8 +72,8 @@ export default function MaxWidthDialog({ toogleStatus, id,editScreen,setEditScre
   React.useEffect(() => {
     Fetch(id);
     
-  }, [id,]);
-console.log("arr",arr)
+  }, [id]);
+
   return (
     <React.Fragment>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -86,7 +88,16 @@ console.log("arr",arr)
           open={open}
           onClose={handleClose}
         >
-          <DialogTitle>{edit ? "Edit User" : "View User"}</DialogTitle>
+          <Box display={"flex"} justifyContent="space-between">
+
+          <DialogTitle>{edit ? "Edit User" : "View User"} </DialogTitle>
+          <CloseIcon 
+          onClick={()=>{
+            handleClose()
+            setEditScreen(false)}}
+            />
+            </Box>
+         
           <DialogContent>
             <DialogContentText>
               {/* You can set my maximum width and whether to adapt or not. */}
@@ -128,6 +139,7 @@ console.log("arr",arr)
                   }}
                 />
                 <TextField
+                disabled
                   variant="outlined"
                   label="E-mail"
                   defaultValue={arr.email}
@@ -150,18 +162,32 @@ console.log("arr",arr)
           <DialogActions>
             <Button variant="contained" onClick={handleEdit}>
               {edit ? (
-                <div onClick={() => {
+                <div  onClick={() => {
                   editUser()
                   setEditScreen(false)}}>Save Changes</div>
               ) : (
                 <div onClick={() => setUserEdit(id.id)}>Edit</div>
               )}
             </Button>
-            <Button variant="contained" onClick={()=>{
-              handleClose()
-              setEditScreen(false)}}>
-              Close
-            </Button>
+            {edit?
+            <Button color="error" variant="contained" onClick={()=>{
+              // window.confirm("user delete hojyga bc")
+              if (
+                window.confirm(
+                  "You will not be able to reactivate the user and retrieve their information. Are you sure you want to proceed"
+                )
+              ){
+                deleteUsers(id)
+                handleClose()
+                toast.error("User de-activated successfully", {
+                  position: "bottom-right",
+                });
+              }
+              // setEditScreen(false)
+            }} >
+              Delete User
+            </Button>:null}
+            
           </DialogActions>
         </Dialog>
       ) : null}

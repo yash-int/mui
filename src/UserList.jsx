@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
@@ -8,8 +9,7 @@ import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { ToastContainer, toast } from "react-toastify";
 import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
+
 import DialogTitle from "@mui/material/DialogTitle";
 
 import IconButton from "@mui/material/IconButton";
@@ -18,28 +18,13 @@ import Typography from "@mui/material/Typography";
 
 import MaxWidthDialog from "./View";
 
-import MuiAlert from "@mui/material/Alert";
 import Create from "./Create";
 import { TextField } from "@mui/material";
 
-import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-
-// const Alert = React.forwardRef(function Alert(props, ref) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
-
-// const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-//   "& .MuiDialogContent-root": {
-//     padding: theme.spacing(2),
-//   },
-//   "& .MuiDialogActions-root": {
-//     padding: theme.spacing(1),
-//   },
-// }));
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -90,35 +75,40 @@ function UserList() {
   const [editScreen, setEditScreen] = useState(false);
   const [open3, setOpen3] = useState(true);
   const [searchText, setSearchText] = useState("");
-  const [statusdd, setStatusdd] = React.useState('');
-  const [temp,setTemp]=useState([])
+  const [statusdd, setStatusdd] = React.useState("");
+  const [temp, setTemp] = useState([]);
   useEffect(() => {
     get(searchText); //this function is fetching user data
-  }, [status, searchText]);// yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
+  }, [status, searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
 
   async function get(e) {
     const res = await fetch(`http://localhost:3010/data?q=${e}`); // data fetch yha ho rha h
     const data = await res.json();
 
-    // ye get function api s data fetch bhi kr rha h or search bhi 
+    // ye get function api s data fetch bhi kr rha h or search bhi
     // search k lie humne bus q pass kia h with some value as e here
 
     setRows(data); //setting all data inside rows which is an []
-    setTemp(data)// ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original 
+    setTemp(data); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
     //data na change ho isliye ek or state rkhi h temp nam ki
   }
- function filtering(el){//ek parameter pass krre kuch bhi jo dropdown m select hoga
-   if(el==="All"){//if value==all
-     return setRows(temp)//then return those values and set them to temp
-   }
-   const newData= temp.filter((e)=>{ //now filter from temp where 
-    return e.status==el//status value == parameter from dropdown
-   })
-   setRows(newData)
- }
-  const handleStatusdd=(e)=>{
-    setStatusdd(e.target.value)
+  function filtering(el) {
+    console.log("el",el)
+    //ek parameter pass krre kuch bhi jo dropdown m select hoga
+    if (el === "All") {
+      //if value==all
+      return setRows(temp); //then return those values and set them to temp
+    }
+    const newData = temp.filter((e) => {
+      //now filter from temp where
+      return e.status === el; //status value == parameter from dropdown
+    });
+    console.log(newData)
+    setRows(newData);
   }
+  const handleStatusdd = (e) => {
+    setStatusdd(e.target.value);
+  };
 
   const handleClick1 = () => {
     setOpen1(true);
@@ -159,14 +149,15 @@ function UserList() {
   };
 
   function deleteUsers(e) {
-    // console.log(e.row);
-    fetch(`http://localhost:3010/data/${e.row.id}`, {
+    console.log(e)
+    fetch(`http://localhost:3010/data/${id}`, {
       method: "DELETE",
     })
       .then((res) => {
         res.json().then((ress) => {
           setAnchorEl(false);
           get();
+          console.log("delete");
         });
       })
       .catch((error) => {
@@ -177,8 +168,8 @@ function UserList() {
   //patch function for updating status of user i.e. active,suspend
 
   function patch(e) {
-    // console.log(delUser.row.id);
-    fetch(`http://localhost:3010/data/${delUser.row.id}`, {
+    
+    fetch(`http://localhost:3010/data/${delUser}`, {
       method: "PATCH",
       body: JSON.stringify({
         status: e,
@@ -356,37 +347,59 @@ function UserList() {
     <div style={{ height: 700, width: "100%" }}>
       <ToastContainer />
       <Box display="flex" justifyContent={"space-between"}>
-        <Typography variant="h5">User List</Typography> 
-        <TextField
-        
-          label="Search"
-          variant="standard"
-          onChange={(e) => {
-            setSearchText(e.target.value);
-          }}
-        />
+        <div style={{ display: "flex" }}>
+          <Typography marginTop="15px" variant="h5">
+            User List
+          </Typography>
 
-<FormControl sx={{width:150}}>
-        <InputLabel id="demo-simple-select-label">Status</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={statusdd}
-          label="Status"
-          onChange={handleStatusdd}
-        >
-          <MenuItem value={"All"} onClick={()=>{
-            filtering("All")
-          }}>All</MenuItem>
-          <MenuItem value={"Active"} onClick={()=>{
-            filtering("Active")
-          }}>Active</MenuItem>
-          <MenuItem value={"Suspend"} onClick={()=>{
-            filtering("Suspend")
-          }}>Suspend</MenuItem>
-        </Select>
-      </FormControl>
-        <Create />
+          <TextField
+            fullWidth
+            style={{ marginLeft: "50px", width: "500px", height: "10px" }}
+            label="Search"
+            variant="standard"
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <FormControl sx={{ width: 150, marginRight: 3 }}>
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={statusdd}
+              label="Status"
+              onChange={handleStatusdd}
+            >
+              <MenuItem
+                value={"All"}
+                onClick={() => {
+                  filtering("All");
+                }}
+              >
+                All
+              </MenuItem>
+              <MenuItem
+                value={"Active"}
+                onClick={() => {
+                  filtering("Active");
+                }}
+              >
+                Active
+              </MenuItem>
+              <MenuItem
+                value={"Suspend"}
+                onClick={() => {
+                  filtering("Suspend");
+                }}
+              >
+                Suspend
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <Create />
+        </div>
       </Box>
 
       <DataGrid
@@ -399,7 +412,8 @@ function UserList() {
           if (e.value !== undefined) {
             setStatus(true);
           }
-          setDelUser(e);
+
+          setDelUser(e.row.id);
           setId(e.id);
 
           setOpen3(true);
@@ -413,6 +427,7 @@ function UserList() {
           setEditScreen={setEditScreen}
           editScreen={editScreen}
           id={id}
+          deleteUsers={deleteUsers}
         />
       ) : null}
     </div>

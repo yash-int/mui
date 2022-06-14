@@ -10,7 +10,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
 import Popover from '@mui/material/Popover';
 import { useState } from "react";
-
 import CloseIcon from '@mui/icons-material/Close';
 
 
@@ -52,7 +51,7 @@ export default function Create() {
   const id = openI ? 'simple-popover' : undefined;
 
 
-  console.log(firstName, lastName, email, phone);
+  // console.log(firstName, lastName, email, phone);
 
   // validating the email entered is in right format or not
   function Validate() {
@@ -108,7 +107,9 @@ export default function Create() {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>Create User</DialogTitle>
+        <DialogTitle sx={{display:"flex",justifyContent:"space-between"}}>Create User
+        <CloseIcon onClick={handleClose}/>
+        </DialogTitle>
         <DialogContent>
           <Box
             noValidate
@@ -128,6 +129,8 @@ export default function Create() {
               noValidate
               autoComplete="off"
             >
+
+             
               <TextField
                 required
                 variant="outlined"
@@ -217,9 +220,9 @@ export default function Create() {
           >
             Create User
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          {/* <Button variant="contained" onClick={handleClose}>
             Close
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </React.Fragment>
