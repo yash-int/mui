@@ -14,7 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-export default function Create() {
+export default function Create({get}) {
   const [open, setOpen] = React.useState(false);
   const [maxWidth, setMaxWidth] = React.useState("lg");
   const [fullWidth, setFullWidth] = React.useState(true);
@@ -92,6 +92,14 @@ export default function Create() {
           email: email,
           phone_number: phone,
         }),
+      }).then((res) => {
+        res.json().then((ress) => {
+          console.log("created")
+          get()
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
     }
   }

@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
@@ -24,7 +23,6 @@ import { TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -77,12 +75,12 @@ function UserList() {
   const [searchText, setSearchText] = useState("");
   const [statusdd, setStatusdd] = React.useState("");
   const [temp, setTemp] = useState([]);
-useEffect(() => {
+  useEffect(() => {
     get(searchText); //this function is fetching user data
-  }, [searchText]);   // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
+  }, [searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
 
   async function get(e) {
-    const res = await fetch(`http://localhost:3010/data?q=${e}`); // data fetch yha ho rha h
+    const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`); // data fetch yha ho rha h
     const data = await res.json();
 
     // ye get function api s data fetch bhi kr rha h or search bhi
@@ -93,7 +91,7 @@ useEffect(() => {
     //data na change ho isliye ek or state rkhi h temp nam ki
   }
   function filtering(el) {
-    console.log("el",el)
+    console.log("el", el);
     //ek parameter pass krre kuch bhi jo dropdown m select hoga
     if (el === "All") {
       //if value==all
@@ -103,7 +101,7 @@ useEffect(() => {
       //now filter from temp where
       return e.status === el; //status value == parameter from dropdown
     });
-    console.log(newData)
+    console.log(newData);
     setRows(newData);
   }
   const handleStatusdd = (e) => {
@@ -149,7 +147,7 @@ useEffect(() => {
   };
 
   function deleteUsers(e) {
-    console.log(e)
+    console.log(e);
     fetch(`http://localhost:3010/data/${id}`, {
       method: "DELETE",
     })
@@ -168,7 +166,6 @@ useEffect(() => {
   //patch function for updating status of user i.e. active,suspend
 
   function patch(e) {
-    
     fetch(`http://localhost:3010/data/${delUser}`, {
       method: "PATCH",
       body: JSON.stringify({
@@ -344,92 +341,107 @@ useEffect(() => {
   const [id, setId] = React.useState("");
 
   return (
-    <div style={{ height: 700, width: "100%" }}>
-      <ToastContainer />
-      <Box display="flex" justifyContent={"space-between"}>
-        <div style={{ display: "flex" }}>
-          <Typography marginTop="15px" variant="h5">
-            User List
-          </Typography>
-
-          <TextField
-            fullWidth
-            style={{ marginLeft: "50px", width: "500px", height: "10px" }}
-            label="Search"
-            variant="standard"
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-          />
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <FormControl sx={{ width: 150, marginRight: 3 }}>
-            <InputLabel id="demo-simple-select-label">Status</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={statusdd}
-              label="Status"
-              onChange={handleStatusdd}
-            >
-              <MenuItem
-                value={"All"}
-                onClick={() => {
-                  filtering("All");
-                }}
-              >
-                All
-              </MenuItem>
-              <MenuItem
-                value={"Active"}
-                onClick={() => {
-                  filtering("Active");
-                }}
-              >
-                Active
-              </MenuItem>
-              <MenuItem
-                value={"Suspend"}
-                onClick={() => {
-                  filtering("Suspend");
-                }}
-              >
-                Suspend
-              </MenuItem>
-            </Select>
-          </FormControl>
-          <Create />
-        </div>
-      </Box>
-
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        displayRowCheckbox={false}
-        onCellClick={(e) => {
-          if (e.value !== undefined) {
-            setStatus(true);
-          }
-
-          setDelUser(e.row.id);
-          setId(e.id);
-
-          setOpen3(true);
+    <div style={{flexGrow: 1,}}>
+      <div
+        style={{
+          width: "100%",
+          backgroundColor: "white",
+          borderBottom:"1px solid black",
+          height: "100px",
+          position: "sticky",
+        top:0,
+        zIndex:10
         }}
-      />
+      >
+        <ToastContainer />
+        <Box display="flex" justifyContent={"space-between"}>
+          <div style={{ display: "flex" }}>
+            <Typography marginTop="15px" variant="h5">
+              User List
+            </Typography>
 
-      {status ? (
-        <MaxWidthDialog
-          open3={open3}
-          toogleStatus={toogleStatus}
-          setEditScreen={setEditScreen}
-          editScreen={editScreen}
-          id={id}
-          deleteUsers={deleteUsers}
+            <TextField
+              fullWidth
+              style={{ marginLeft: "50px", width: "500px", height: "10px" }}
+              label="Search"
+              variant="standard"
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <FormControl sx={{ width: 150, marginRight: 3 }}>
+              <InputLabel id="demo-simple-select-label">Status</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={statusdd}
+                label="Status"
+                onChange={handleStatusdd}
+              >
+                <MenuItem
+                  value={"All"}
+                  onClick={() => {
+                    filtering("All");
+                  }}
+                >
+                  All
+                </MenuItem>
+                <MenuItem
+                  value={"Active"}
+                  onClick={() => {
+                    filtering("Active");
+                  }}
+                >
+                  Active
+                </MenuItem>
+                <MenuItem
+                  value={"Suspend"}
+                  onClick={() => {
+                    filtering("Suspend");
+                  }}
+                >
+                  Suspend
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <Create get={()=>{
+              get("")
+            }} />
+          </div>
+        </Box>
+      </div>
+      <div style={{ height: 700, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          displayRowCheckbox={false}
+          onCellClick={(e) => {
+            if (e.value !== undefined) {
+              setStatus(true);
+            }
+
+            setDelUser(e.row.id);
+            setId(e.id);
+
+            setOpen3(true);
+          }}
         />
-      ) : null}
+
+        {status ? (
+          <MaxWidthDialog
+            open3={open3}
+            toogleStatus={toogleStatus}
+            setEditScreen={setEditScreen}
+            editScreen={editScreen}
+            id={id}
+            deleteUsers={deleteUsers}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }
