@@ -58,7 +58,7 @@ function UserList() {
   const [rows, setRows] = useState([]); //this is for user list table containing whole data fetched from API
   const [edit, setEdit] = useState(); //this is for edit pop-up
   const [open1, setOpen1] = React.useState(false);
-  const [maxWidth, setMaxWidth] = React.useState("lg"); // setting the width of popup to default
+  const [maxWidth, setMaxWidth] = React.useState("md"); // setting the width of popup to default
   const [fullWidth, setFullWidth] = React.useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [status, setStatus] = useState(false); //setting status to active or suspend
@@ -75,6 +75,8 @@ function UserList() {
   const [searchText, setSearchText] = useState("");
   const [statusdd, setStatusdd] = React.useState("");
   const [temp, setTemp] = useState([]);
+
+
   useEffect(() => {
     get(searchText); //this function is fetching user data
   }, [searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
@@ -349,8 +351,8 @@ function UserList() {
           borderBottom:"1px solid black",
           height: "100px",
           position: "sticky",
-        top:0,
-        zIndex:10
+          top:0,
+          zIndex:10
         }}
       >
         <ToastContainer />
@@ -416,8 +418,8 @@ function UserList() {
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
+          pageSize={20}
+          rowsPerPageOptions={[20]}
           displayRowCheckbox={false}
           onCellClick={(e) => {
             if (e.value !== undefined) {

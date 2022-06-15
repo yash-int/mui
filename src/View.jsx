@@ -83,8 +83,8 @@ export default function MaxWidthDialog({ toogleStatus, id,editScreen,setEditScre
       {/* checking if arr is true then open pop-up of view user */}
       {arr ? (
         <Dialog
-          fullWidth={fullWidth}
-          maxWidth={maxWidth}
+          // fullWidth={fullWidth}   if i uncomment these tow fullwidth and maxwidth 
+          // maxWidth={maxWidth}     then pop-up will expand 
           open={open}
           onClose={handleClose}
         >
