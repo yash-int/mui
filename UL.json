@@ -1,23 +1,7 @@
 {
   "data": [
     {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "Suspend",
-      "id": 7
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "Active",
-      "id": 10
-    },
-    {
-      "first_name": "a",
+      "first_name": "c",
       "last_name": "b",
       "email": "a@gmail.com",
       "phone_number": "10",
@@ -38,22 +22,6 @@
       "email": "a@gmail.com",
       "phone_number": "10",
       "status": "Active",
-      "id": 13
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "Active",
-      "id": 14
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
       "id": 15
     },
     {
@@ -135,6 +103,27 @@
       "phone_number": "2121212121",
       "id": 56,
       "status": "Suspend"
+    },
+    {
+      "first_name": "shubh",
+      "last_name": "garg",
+      "email": "shubh@gmail.com",
+      "phone_number": "123456",
+      "id": 57
+    },
+    {
+      "first_name": "yazh",
+      "last_name": "garg",
+      "email": "yash@gmail.com",
+      "phone_number": "90909090",
+      "id": 58
+    },
+    {
+      "first_name": "y",
+      "last_name": "w",
+      "email": "w@gmail.com",
+      "phone_number": "1",
+      "id": 59
     }
   ]
 }

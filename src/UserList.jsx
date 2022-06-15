@@ -77,9 +77,9 @@ function UserList() {
   const [searchText, setSearchText] = useState("");
   const [statusdd, setStatusdd] = React.useState("");
   const [temp, setTemp] = useState([]);
-  useEffect(() => {
+useEffect(() => {
     get(searchText); //this function is fetching user data
-  }, [status, searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
+  }, [searchText]);   // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
 
   async function get(e) {
     const res = await fetch(`http://localhost:3010/data?q=${e}`); // data fetch yha ho rha h
@@ -156,7 +156,7 @@ function UserList() {
       .then((res) => {
         res.json().then((ress) => {
           setAnchorEl(false);
-          get();
+          get(searchText);
           console.log("delete");
         });
       })
@@ -181,7 +181,7 @@ function UserList() {
       .then((res) => {
         res.json().then((ress) => {
           setAnchorEl(false);
-          get();
+          get(searchText);
         });
       })
       .catch((error) => {
