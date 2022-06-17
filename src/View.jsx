@@ -98,7 +98,10 @@ export default function MaxWidthDialog({ toogleStatus, id,editScreen,setEditScre
             />
             </Box>
          
-          <DialogContent>
+          <DialogContent 
+          
+            aria-labelledby="responsive-dialog-title" 
+          >
             <DialogContentText>
               {/* You can set my maximum width and whether to adapt or not. */}
             </DialogContentText>
@@ -143,6 +146,15 @@ export default function MaxWidthDialog({ toogleStatus, id,editScreen,setEditScre
                   variant="outlined"
                   label="E-mail"
                   defaultValue={arr.email}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                <TextField
+                // disabled
+                  variant="outlined"
+                  label="Status"
+                  defaultValue={arr.status}
                   InputProps={{
                     readOnly: true,
                   }}

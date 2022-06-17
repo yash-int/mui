@@ -87,7 +87,7 @@ function UserList() {
 
     // ye get function api s data fetch bhi kr rha h or search bhi
     // search k lie humne bus q pass kia h with some value as e here
-
+    console.log(data[0].first_name);
     setRows(data); //setting all data inside rows which is an []
     setTemp(data); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
     //data na change ho isliye ek or state rkhi h temp nam ki
@@ -95,10 +95,12 @@ function UserList() {
   function filtering(el) {
     console.log("el", el);
     //ek parameter pass krre kuch bhi jo dropdown m select hoga
+    //if el = all h to setrows m sara k sara data vse hi set hojyga jsa h 
     if (el === "All") {
       //if value==all
       return setRows(temp); //then return those values and set them to temp
     }
+    // pr agr el active ya suspend h toh hum temp me se filter krege or respective result ko setRows me newdata bhjge set kr dege
     const newData = temp.filter((e) => {
       //now filter from temp where
       return e.status === el; //status value == parameter from dropdown
@@ -204,10 +206,12 @@ function UserList() {
       disableClickEventBubbling: true,
     },
     {
-      field: "first_name",
+      field:  "full_name",//yha pr first name or last name dono pass krne
       headerName: "Name",
       width: 170,
       disableClickEventBubbling: true,
+      valueGetter: (params) =>
+      `${params.row.first_name || ''} ${params.row.last_name || ''}`,
     },
 
     {
@@ -372,6 +376,9 @@ function UserList() {
               }}
             />
           </div>
+
+              {/* this is dropdown div */}
+
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <FormControl sx={{ width: 150, marginRight: 3 }}>
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
@@ -408,8 +415,10 @@ function UserList() {
                 </MenuItem>
               </Select>
             </FormControl>
+
+            {/* this is create user */}
             <Create get={()=>{
-              get("")
+              get("") // in get request we have passed a parameter that is why we are passing it here like this
             }} />
           </div>
         </Box>
@@ -426,10 +435,10 @@ function UserList() {
               setStatus(true);
             }
 
-            setDelUser(e.row.id);
+            setDelUser(e.row.id);//row?
             setId(e.id);
-
             setOpen3(true);
+
           }}
         />
 

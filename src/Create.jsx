@@ -55,16 +55,23 @@ export default function Create({get}) {
 
   // validating the email entered is in right format or not
   function Validate() {
-    const regex =
-    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    // const regex =
+    // /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     
+    const regex    = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;//for email
+
     const phoneNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
 
-    const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
+    const passw    = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,15}$/
 
-      if (firstName == "" || email == "" || phone == "" || password == "") {
-      alert("fill all fields ");
-    } else {
+    //   if (firstName == "" || email == "" || phone == "" || password == "") {
+    //   alert("fill all fields ");
+    // } 
+    // else {
+      if (firstName.trim().length === 0) {
+        alert("Firstname can't be empty");
+        return false;//alert k bad return false krne se pop-up gyab nhi hota
+      } 
       if (!email || regex.test(email) === false) {
         alert("Email is not valid");
         return false;
@@ -80,7 +87,7 @@ export default function Create({get}) {
           alert('password criteria does not match')
           return false;
         }
-      }
+      // }
       store();
       handleClose();
       return true;
@@ -90,14 +97,8 @@ export default function Create({get}) {
   // this is a function which is given on create user button inside create user pop-up
   // on clicking create user this function will get called checking the if else cond and posting data to server
   async function store() {
-    if (
-      firstName.trim().length === 0 ||
-      email.trim().length === 0 ||
-      phone.trim().length === 0 
-      || phone.trim().length<10||phone.trim().length>10
-    ) {
-      alert("Please fill the required fields");
-    } else {
+    
+    // else {
       const response = await fetch("http://localhost:3010/data", {
         method: "POST",
         headers: {
@@ -120,7 +121,7 @@ export default function Create({get}) {
         console.log(error);
       });
     }
-  }
+  // }
 
   return (
     <React.Fragment>
@@ -209,7 +210,7 @@ export default function Create({get}) {
                       }}
                     >
                       
-                      <div >
+                      <Box >
                       <CloseIcon sx={{marginLeft:"540px"}} onClick={handleIclose}/>
                       <ul style={{margin:"20px"}}>
                         <h4>Password criteria should be as below:</h4>
@@ -220,7 +221,7 @@ export default function Create({get}) {
                         <li>Should have a maximum character limit of 15 characters</li>
                       </ul>
                       
-                      </div>
+                      </Box>
                     </Popover>
                 
               <TextField

@@ -1,102 +1,6 @@
 {
   "data": [
     {
-      "first_name": "c",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "Active",
-      "id": 11
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "Active",
-      "id": 12
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "Active",
-      "id": 15
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 16
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 17
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 18
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 19
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 21
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 20
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 22
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 43
-    },
-    {
-      "first_name": "a",
-      "last_name": "b",
-      "email": "a@gmail.com",
-      "phone_number": "10",
-      "status": "active",
-      "id": 55
-    },
-    {
       "first_name": "yash",
       "last_name": "a",
       "email": "yahs@gmail.com",
@@ -109,126 +13,189 @@
       "last_name": "garg",
       "email": "shubh@gmail.com",
       "phone_number": "123456",
-      "id": 57
+      "id": 57,
+      "status": "Active"
     },
     {
       "first_name": "yazh",
       "last_name": "garg",
       "email": "yash@gmail.com",
       "phone_number": "90909090",
-      "id": 58
+      "id": 58,
+      "status": "Active"
     },
     {
       "first_name": "y",
       "last_name": "w",
       "email": "w@gmail.com",
       "phone_number": "1",
-      "id": 59
+      "id": 59,
+      "status": "Active"
     },
     {
       "first_name": "ravi",
       "last_name": "",
       "email": "ravi@gmail.com",
       "phone_number": "12321312312",
-      "id": 60
+      "id": 60,
+      "status": "Active"
     },
     {
       "first_name": "dsfsdf",
       "last_name": "sdff",
       "email": "sdfsdf@gmail.com",
       "phone_number": "12324",
-      "id": 61
+      "id": 61,
+      "status": "Active"
     },
     {
       "first_name": "eeeeeeeeeeee",
       "last_name": "",
       "email": "rywefyr@gmail.com",
       "phone_number": "234234",
-      "id": 62
+      "id": 62,
+      "status": "Active"
     },
     {
       "first_name": "yash",
       "last_name": "a",
       "email": "a@gmail.com",
       "phone_number": "1234567898989",
-      "id": 63
+      "id": 63,
+      "status": "Active"
     },
     {
       "first_name": "u",
       "last_name": "b",
       "email": "u@b.com",
       "phone_number": "1234",
-      "id": 64
+      "id": 64,
+      "status": "Active"
     },
     {
       "first_name": "uas",
       "last_name": "da",
       "email": "aa2@yashoo.com",
       "phone_number": "12345678909",
-      "id": 65
+      "id": 65,
+      "status": "Active"
     },
     {
       "first_name": "uasaa",
       "last_name": "dadaad",
       "email": "adfsas@gmail.com",
       "phone_number": "1231231231",
-      "id": 66
+      "id": 66,
+      "status": "Active"
     },
     {
       "first_name": "asaasasa",
       "last_name": "asasa",
       "email": "as@gm.com",
       "phone_number": "9358510174",
-      "id": 67
+      "id": 67,
+      "status": "Suspend"
     },
     {
       "first_name": "yash",
       "last_name": "werd",
       "email": "yash@yash.com",
       "phone_number": "1234567890",
-      "id": 68
+      "id": 68,
+      "status": "Active"
     },
     {
       "first_name": "yash",
       "last_name": "a",
       "email": "a@gmail.com",
       "phone_number": "8077144501",
-      "id": 69
+      "id": 69,
+      "status": "Active"
     },
     {
       "first_name": "yoyo",
       "last_name": "fafu",
       "email": "y@gmail.com",
       "phone_number": "1234554321",
-      "id": 70
+      "id": 70,
+      "status": "Active"
     },
     {
       "first_name": "parth",
       "last_name": "garg",
       "email": "parth@gmail.com",
       "phone_number": "8077144502",
-      "id": 71
+      "id": 71,
+      "status": "Active"
     },
     {
       "first_name": "r",
       "last_name": "r",
       "email": "r@zoho.com",
       "phone_number": "1234567890",
-      "id": 72
+      "id": 72,
+      "status": "Active"
     },
     {
       "first_name": "r",
       "last_name": "r",
       "email": "r@g.com",
       "phone_number": "9358510174",
-      "id": 73
+      "id": 73,
+      "status": "Active"
     },
     {
       "first_name": "yash",
       "last_name": "garg",
       "email": "gg@xyz.com",
       "phone_number": "9876598765",
-      "id": 74
+      "id": 74,
+      "status": "Active"
+    },
+    {
+      "first_name": "yash",
+      "last_name": "",
+      "email": "yash@gmaila.com",
+      "phone_number": "1234123412",
+      "id": 75,
+      "status": "Active"
+    },
+    {
+      "first_name": "anshi",
+      "last_name": "",
+      "email": "anshi@gmail.com",
+      "phone_number": "1234512345",
+      "id": 76,
+      "status": "Active"
+    },
+    {
+      "first_name": "y",
+      "last_name": "",
+      "email": "lovely@gmail.com",
+      "phone_number": "9358510184",
+      "id": 77,
+      "status": "Active"
+    },
+    {
+      "first_name": "aaakash ",
+      "last_name": "garg",
+      "email": "aaakash/2@gmail.com",
+      "phone_number": "9879879870",
+      "id": 78
+    },
+    {
+      "first_name": "AAAkash",
+      "last_name": "gaarg",
+      "email": "yash+@gmail.com",
+      "phone_number": "1234567890",
+      "id": 79
+    },
+    {
+      "first_name": "yasshhhh",
+      "last_name": "harggggg",
+      "email": "yash@gmail.com",
+      "phone_number": "1234567890",
+      "id": 80
     }
   ]
 }
