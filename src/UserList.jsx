@@ -56,44 +56,54 @@ BootstrapDialogTitle.propTypes = {
 
 function UserList() {
   const [rows, setRows] = useState([]); //this is for user list table containing whole data fetched from API
+  const [temp, setTemp] = useState([]);
   const [edit, setEdit] = useState(); //this is for edit pop-up
   const [open1, setOpen1] = React.useState(false);
-  const [maxWidth, setMaxWidth] = React.useState("md"); // setting the width of popup to default
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [status, setStatus] = useState(false); //setting status to active or suspend
   const [open, setOpen] = React.useState(false);
+  const [editScreen, setEditScreen] = useState(false);
+  const [maxWidth, setMaxWidth] = React.useState("md"); // setting the width of popup to default
+  const [fullWidth, setFullWidth] = React.useState(true);
   const [suspend, setSuspend] = React.useState(true); //changing suspend button to re-activate and vice-versa
+  const [open3, setOpen3] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [delUser, setDelUser] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [phone, setPhone] = useState(null);
   const [userEdit, setUserEdit] = useState(null);
-  const [buttonStatus, setButtonStatus] = useState(null);
-  const [editScreen, setEditScreen] = useState(false);
-  const [open3, setOpen3] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [statusdd, setStatusdd] = React.useState("");
-  const [temp, setTemp] = useState([]);
+  const [buttonStatus, setButtonStatus] = useState(null);
 
-
+  
+  
   useEffect(() => {
     get(searchText); //this function is fetching user data
   }, [searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
-
+  
   async function get(e) {
-    const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`); // data fetch yha ho rha h
+    const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`);
+    // const res = await fetch(`https://backend-ai-postgres.herokuapp.com/users`);
+    
+    // data fetch yha ho rha h
     const data = await res.json();
-
+    // console.log("All Users",data.Users);
+    
     // ye get function api s data fetch bhi kr rha h or search bhi
     // search k lie humne bus q pass kia h with some value as e here
-    console.log(data[0].first_name);
+    // console.log(data[0].first_name);
     setRows(data); //setting all data inside rows which is an []
     setTemp(data); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
     //data na change ho isliye ek or state rkhi h temp nam ki
   }
+
+
+  console.log(buttonStatus,"UserList",rows);
+
+
   function filtering(el) {
-    console.log("el", el);
+    // console.log("el", el);
     //ek parameter pass krre kuch bhi jo dropdown m select hoga
     //if el = all h to setrows m sara k sara data vse hi set hojyga jsa h 
     if (el === "All") {
@@ -105,7 +115,7 @@ function UserList() {
       //now filter from temp where
       return e.status === el; //status value == parameter from dropdown
     });
-    console.log(newData);
+    // console.log(newData);
     setRows(newData);
   }
   const handleStatusdd = (e) => {
@@ -151,7 +161,7 @@ function UserList() {
   };
 
   function deleteUsers(e) {
-    console.log(e);
+    // console.log(e);
     fetch(`http://localhost:3010/data/${id}`, {
       method: "DELETE",
     })
@@ -159,7 +169,7 @@ function UserList() {
         res.json().then((ress) => {
           setAnchorEl(false);
           get(searchText);
-          console.log("delete");
+          // console.log("delete");
         });
       })
       .catch((error) => {
@@ -169,8 +179,9 @@ function UserList() {
 
   //patch function for updating status of user i.e. active,suspend
 
-  function patch(e) {
-    fetch(`http://localhost:3010/data/${delUser}`, {
+  function patch(e,el) {
+    console.log(e,el)
+    fetch(`http://localhost:3010/data/${el}`, {
       method: "PATCH",
       body: JSON.stringify({
         status: e,
@@ -298,7 +309,7 @@ function UserList() {
                   {!buttonStatus ? (
                     <div
                       onClick={() => {
-                        patch("Active");
+                        patch("Active",delUser);
                         toast.success("User activated successfully", {
                           position: "bottom-right",
                         });
@@ -309,7 +320,7 @@ function UserList() {
                   ) : (
                     <div
                       onClick={() => {
-                        patch("Suspend");
+                        patch("Suspend",delUser);
 
                         toast.success("User suspended successfully", {
                           position: "bottom-right",
@@ -425,6 +436,7 @@ function UserList() {
       </div>
       <div style={{ height: 700, width: "100%" }}>
         <DataGrid
+        style={{cursor:"pointer"}}
           rows={rows}
           columns={columns}
           pageSize={20}
@@ -434,6 +446,7 @@ function UserList() {
             if (e.value !== undefined) {
               setStatus(true);
             }
+            console.log("e",e) //row= material ui ki row
 
             setDelUser(e.row.id);//row?
             setId(e.id);
@@ -444,12 +457,16 @@ function UserList() {
 
         {status ? (
           <MaxWidthDialog
+          get={get}
             open3={open3}
             toogleStatus={toogleStatus}
             setEditScreen={setEditScreen}
             editScreen={editScreen}
             id={id}
             deleteUsers={deleteUsers}
+            patch={patch}
+         
+            buttonStatus={buttonStatus}
           />
         ) : null}
       </div>

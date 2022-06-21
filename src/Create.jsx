@@ -97,6 +97,10 @@ export default function Create({get}) {
   // this is a function which is given on create user button inside create user pop-up
   // on clicking create user this function will get called checking the if else cond and posting data to server
   async function store() {
+
+    //https://backend-ai-postgres.herokuapp.com/user
+
+    //
     
     // else {
       const response = await fetch("http://localhost:3010/data", {
