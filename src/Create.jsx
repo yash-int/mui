@@ -55,6 +55,7 @@ export default function Create({get}) {
 
   // validating the email entered is in right format or not
   function Validate() {
+    //validating
     // const regex =
     // /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     
@@ -97,13 +98,11 @@ export default function Create({get}) {
   // this is a function which is given on create user button inside create user pop-up
   // on clicking create user this function will get called checking the if else cond and posting data to server
   async function store() {
-
-    //https://backend-ai-postgres.herokuapp.com/user
-
-    //
+    
     
     // else {
-      const response = await fetch("http://localhost:3010/data", {
+      // const response = await fetch("http://localhost:3010/data", {
+      const response = await fetch("https://backend-ai-postgres.herokuapp.com/user", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -112,8 +111,9 @@ export default function Create({get}) {
         body: JSON.stringify({
           first_name: firstName,
           last_name: lastName,
-          email: email,
-          phone_number: phone,
+          email_id: email,
+          contact_no: phone,
+          password:password,
         }),
       }).then((res) => {
         res.json().then((ress) => {

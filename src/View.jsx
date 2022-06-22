@@ -12,6 +12,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
 import { useEffect } from "react";
 
+
+
+//this is a dialog box function which let view screen appear 
 export default function MaxWidthDialog({
   toogleStatus,
   id,
@@ -24,7 +27,7 @@ export default function MaxWidthDialog({
  
 }) {
   // console.log("Status",status)
-  console.log(buttonStatus, 'View');
+  // console.log(buttonStatus, 'View');
   // const data = false;
   const [open, setOpen] = React.useState(true);
   // const [maxWidth, setMaxWidth] = React.useState("lg");
@@ -46,19 +49,21 @@ export default function MaxWidthDialog({
   );
   useEffect(()=>{
     Fetch(id)
-  },[id])
+  },[id])//everytime id changes you re-render it
+  //function to get single user data to present it on view user screen
   async function Fetch(id) {
-    const rows = await fetch(`http://localhost:3010/data/${id}`); // this is helping in auto populating the data from backend as per user info present and showing that in edit pop-up auto filled
+    // const rows = await fetch(`http://localhost:3010/data/${id}`); // this is helping in auto populating the data from backend as per user info present and showing that in edit pop-up auto filled
+    const rows = await fetch(`https://backend-ai-postgres.herokuapp.com/user/${id}`); // this is helping in auto populating the data from backend as per user info present and showing that in edit pop-up auto filled
     const data = await rows.json();
 
     setArr(data);
-    // console.log(data)
+    // console.log(data,'daaaattttaaa')
     setFirstName(data.firstName);
     setLastName(data.lastName);
     setPhone(data.phone);
   }
 
-  console.log(buttonStatus);
+  console.log('arr from su',arr);
 
   const handleClose = () => {
     toogleStatus();
@@ -70,14 +75,15 @@ export default function MaxWidthDialog({
   const handleEdit = () => {
     setEdit(true);
   };
-  // function to edit a user info
+  // function to edit a user info 
   const editUser = () => {
-    fetch(`http://localhost:3010/data/${id}`, {
-      method: "PATCH",
+    // fetch(`http://localhost:3010/data/${id}`, {
+    fetch(`https://backend-ai-postgres.herokuapp.com/users/${id}`, {
+      method: "PUT",
       body: JSON.stringify({
         first_name: firstName,
         last_name: lastName,
-        phone_number: phone,
+        contact_no: phone,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -150,7 +156,7 @@ export default function MaxWidthDialog({
                 <TextField
                   variant="outlined"
                   label="Firstname"
-                  defaultValue={arr.first_name}
+                  defaultValue={arr.user[0].first_name}
                   onChange={(e) => setFirstName(e.target.value)}
                   InputProps={{
                     readOnly: edit ? false : true,
@@ -159,7 +165,7 @@ export default function MaxWidthDialog({
                 <TextField
                   variant="outlined"
                   label="Lastname"
-                  defaultValue={arr.last_name}
+                  defaultValue={arr.user[0].last_name}
                   onChange={(e) => setLastName(e.target.value)}
                   InputProps={{
                     readOnly: edit ? false : true,
@@ -169,7 +175,7 @@ export default function MaxWidthDialog({
                   disabled
                   variant="outlined"
                   label="E-mail"
-                  defaultValue={arr.email}
+                  defaultValue={arr.user[0].email_id}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -178,7 +184,7 @@ export default function MaxWidthDialog({
                   // disabled
                   variant="outlined"
                   label="Status"
-                  defaultValue={arr.status}
+                  defaultValue={arr.user[0].status}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -187,7 +193,7 @@ export default function MaxWidthDialog({
                   variant="outlined"
                   label="Phone Number"
                   onChange={(e) => setPhone(e.target.value)}
-                  defaultValue={arr.phone_number}
+                  defaultValue={arr.user[0].contact_no}
                   InputProps={{
                     readOnly: edit ? false : true,
                   }}
@@ -242,6 +248,7 @@ export default function MaxWidthDialog({
                   <div
                     onClick={() => {
                       // setEditScreen(false);
+                      handleClose()
                       patch("Suspend",id);
                    
                       toast.success("User suspended successfully", {
@@ -259,6 +266,7 @@ export default function MaxWidthDialog({
                     onClick={() => {
                       patch("Active",id);
                       // setEditScreen(false);
+                      handleClose()
                       
                       toast.success("User activated successfully", {
                         position: "bottom-right",

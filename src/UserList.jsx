@@ -62,30 +62,41 @@ function UserList() {
   const [status, setStatus] = useState(false); //setting status to active or suspend
   const [open, setOpen] = React.useState(false);
   const [editScreen, setEditScreen] = useState(false);
-  const [maxWidth, setMaxWidth] = React.useState("md"); // setting the width of popup to default
-  const [fullWidth, setFullWidth] = React.useState(true);
+  // const [maxWidth, setMaxWidth] = React.useState("md"); // setting the width of popup to default
+  // const [fullWidth, setFullWidth] = React.useState(true);
   const [suspend, setSuspend] = React.useState(true); //changing suspend button to re-activate and vice-versa
   const [open3, setOpen3] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [delUser, setDelUser] = useState(null);
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [phone, setPhone] = useState(null);
+  // const [firstName, setFirstName] = useState(null);
+  // const [lastName, setLastName] = useState(null);
+  // const [phone, setPhone] = useState(null);
   const [userEdit, setUserEdit] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [statusdd, setStatusdd] = React.useState("");
   const [buttonStatus, setButtonStatus] = useState(null);
+  const [clicked,setClicked]=useState(false)
+
 
   
+  const handleclicked=()=>{
+    setClicked(true)
+  }
+  
+  useEffect(()=>{
+get()
+  },[])
   
   useEffect(() => {
-    get(searchText); //this function is fetching user data
+    searchFilter(searchText); //this function is fetching user data
   }, [searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
   
   async function get(e) {
-    const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`);
-    // const res = await fetch(`https://backend-ai-postgres.herokuapp.com/users`);
+    // const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`);
+    const res = await fetch(`https://backend-ai-postgres.herokuapp.com/users`);
     
+    // const {q} = req.query
+
     // data fetch yha ho rha h
     const data = await res.json();
     // console.log("All Users",data.Users);
@@ -93,13 +104,22 @@ function UserList() {
     // ye get function api s data fetch bhi kr rha h or search bhi
     // search k lie humne bus q pass kia h with some value as e here
     // console.log(data[0].first_name);
-    setRows(data); //setting all data inside rows which is an []
-    setTemp(data); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
+    setRows(data.Users); //setting all data inside rows which is an []
+    setTemp(data.Users); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
     //data na change ho isliye ek or state rkhi h temp nam ki
   }
+  const searchFilter=(el)=>{
+    let result = rows.filter((e)=>{
+      return e.first_name[0] && e==el
+
+    })
+    console.log("res",result);
+
+  }
+  
 
 
-  console.log(buttonStatus,"UserList",rows);
+  console.log('meri bat sun',rows);
 
 
   function filtering(el) {
@@ -113,7 +133,7 @@ function UserList() {
     // pr agr el active ya suspend h toh hum temp me se filter krege or respective result ko setRows me newdata bhjge set kr dege
     const newData = temp.filter((e) => {
       //now filter from temp where
-      return e.status === el; //status value == parameter from dropdown
+      return e.user_status === el; //status value == parameter from dropdown
     });
     // console.log(newData);
     setRows(newData);
@@ -180,7 +200,7 @@ function UserList() {
   //patch function for updating status of user i.e. active,suspend
 
   function patch(e,el) {
-    console.log(e,el)
+    // console.log(e,el)
     fetch(`http://localhost:3010/data/${el}`, {
       method: "PATCH",
       body: JSON.stringify({
@@ -226,18 +246,22 @@ function UserList() {
     },
 
     {
-      field: "email",
+      field: "email_id",
       headerName: "E-mail",
       width: 330,
       disableClickEventBubbling: true,
     },
     {
-      field: "phone_number",
+      field: "contact_no",
       headerName: "Phone Number",
       width: 240,
       disableClickEventBubbling: true,
     },
-    { field: "status", headerName: "Status", width: 120, sortable: false },
+    { field: "user_status",
+      headerName: "Status",
+      width: 120,
+      sortable: false 
+    },
 
     {
       field: "action",
@@ -250,7 +274,7 @@ function UserList() {
           <>
             <Box
               onClick={() => {
-                if (e.row.status === "Active") {
+                if (e.row.user_status === "Active") {
                   setButtonStatus(true);
                 } else {
                   setButtonStatus(false);
@@ -362,17 +386,20 @@ function UserList() {
       <div
         style={{
           width: "100%",
+          // marginBottom:"10px",
           backgroundColor: "white",
           borderBottom:"1px solid black",
-          height: "100px",
+          height: "120px",
           position: "sticky",
           top:0,
           zIndex:10
         }}
       >
         <ToastContainer />
-        <Box display="flex" justifyContent={"space-between"}>
-          <div style={{ display: "flex" }}>
+        <Box 
+        display="flex" justifyContent={"space-between"} 
+        >
+          <div style={{ display: "flex", marginBottom:"10px" }}>
             <Typography marginTop="15px" variant="h5">
               User List
             </Typography>
@@ -381,9 +408,15 @@ function UserList() {
               fullWidth
               style={{ marginLeft: "50px", width: "500px", height: "10px" }}
               label="Search"
+              onClick={handleclicked}
+              onClose={handleClose}
+              
+              helperText= {clicked ? "Your search will look into user ID, first name, last name, email ID, company and alternate person":""}
               variant="standard"
               onChange={(e) => {
+
                 setSearchText(e.target.value);
+               
               }}
             />
           </div>
@@ -446,7 +479,7 @@ function UserList() {
             if (e.value !== undefined) {
               setStatus(true);
             }
-            console.log("e",e) //row= material ui ki row
+            // console.log("e",e) //row= material ui ki row
 
             setDelUser(e.row.id);//row?
             setId(e.id);
@@ -457,7 +490,7 @@ function UserList() {
 
         {status ? (
           <MaxWidthDialog
-          get={get}
+            get={get}
             open3={open3}
             toogleStatus={toogleStatus}
             setEditScreen={setEditScreen}
@@ -465,7 +498,6 @@ function UserList() {
             id={id}
             deleteUsers={deleteUsers}
             patch={patch}
-         
             buttonStatus={buttonStatus}
           />
         ) : null}
