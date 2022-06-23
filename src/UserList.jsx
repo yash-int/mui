@@ -23,6 +23,7 @@ import { TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { faSleigh } from "@fortawesome/free-solid-svg-icons";
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -200,9 +201,10 @@ get()
   //patch function for updating status of user i.e. active,suspend
 
   function patch(e,el) {
-    // console.log(e,el)
-    fetch(`http://localhost:3010/data/${el}`, {
-      method: "PATCH",
+    console.log(e,el)
+    // fetch(`http://localhost:3010/data/${el}`, {
+    fetch(`https://backend-ai-postgres.herokuapp.com/user/edit/${el}`, {
+      method: "PUT",
       body: JSON.stringify({
         status: e,
       }),
@@ -344,7 +346,7 @@ get()
                   ) : (
                     <div
                       onClick={() => {
-                        patch("Suspend",delUser);
+                        patch("Suspend",delUser);//FUNCTION KA NAM H PATCH
 
                         toast.success("User suspended successfully", {
                           position: "bottom-right",
@@ -397,6 +399,8 @@ get()
       >
         <ToastContainer />
         <Box 
+        // onClick={()=>{setClicked(false)}}
+        // setClicked={"false"}
         display="flex" justifyContent={"space-between"} 
         >
           <div style={{ display: "flex", marginBottom:"10px" }}>
@@ -409,7 +413,7 @@ get()
               style={{ marginLeft: "50px", width: "500px", height: "10px" }}
               label="Search"
               onClick={handleclicked}
-              onClose={handleClose}
+              // onClose={handleClose}
               
               helperText= {clicked ? "Your search will look into user ID, first name, last name, email ID, company and alternate person":""}
               variant="standard"
@@ -461,7 +465,9 @@ get()
             </FormControl>
 
             {/* this is create user */}
-            <Create get={()=>{
+            <Create 
+            // onClick={()=>{setClicked(false)}} 
+            get={()=>{
               get("") // in get request we have passed a parameter that is why we are passing it here like this
             }} />
           </div>

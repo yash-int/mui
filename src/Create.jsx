@@ -260,3 +260,28 @@ export default function Create({get}) {
     </React.Fragment>
   );
 }
+
+
+
+//alternate_contact_no: null
+// alternate_person: null
+// building_no: null
+// city: null
+// company: null
+// contact_no: "9878987990"
+// country: null
+// created_at: "2022-06-22T05:54:24.713Z"
+// email_id: "yashgarg1234@gmail.com"
+// first_name: "yash"
+// id: "bfa5bf12-382f-4d45-a972-dfd079176c89"
+// job_title: null
+// last_name: "garg"
+// password: "Bx@212"
+// postal_code: null
+// shipper_type: null
+// state: null
+// status: 1
+// street_name: null
+// street_no: null
+// updated_at: "2022-06-22T05:54:24.713Z"
+// user_status: "Active"

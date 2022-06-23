@@ -78,7 +78,7 @@ export default function MaxWidthDialog({
   // function to edit a user info 
   const editUser = () => {
     // fetch(`http://localhost:3010/data/${id}`, {
-    fetch(`https://backend-ai-postgres.herokuapp.com/users/${id}`, {
+    fetch(`https://backend-ai-postgres.herokuapp.com/user/edit/${id}`, {
       method: "PUT",
       body: JSON.stringify({
         first_name: firstName,
