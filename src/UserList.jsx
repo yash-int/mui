@@ -23,7 +23,6 @@ import { TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { faSleigh } from "@fortawesome/free-solid-svg-icons";
 
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
@@ -90,7 +89,7 @@ function UserList() {
     searchFilter(searchText); //this function is fetching user data
   }, [searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
 
-  async function get(e) {
+  async function get() {
     // const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`);
     const res = await fetch(`https://backend-ai-postgres.herokuapp.com/users`);
 
@@ -114,7 +113,7 @@ function UserList() {
   const searchFilter = (el) => {
     if (el.length >= 2) {
       const arr = rows.filter((e) => {
-        if (e.first_name[0] == el[0] && e.first_name[1] == el[1]) {
+        if (e.first_name[0].toLowerCase() ==el || e.first_name[0].toUpperCase() == el[0] && e.first_name[1].toLowerCase() == el[1] || e.first_name[0].toUpperCase()==el[1]) {
           return e.first_name;
         }
         if (e.last_name[0] == el[0] && e.last_name[1] == el[1]) {
@@ -127,7 +126,7 @@ function UserList() {
           return e.id;
         }
       });
-      console.log(arr);
+      //   console.log(arr);
       setTemp(arr);
     } else {
       setTemp(rows);
@@ -142,15 +141,15 @@ function UserList() {
     //if el = all h to setrows m sara k sara data vse hi set hojyga jsa h
     if (el === "All") {
       //if value==all
-      return setRows(temp); //then return those values and set them to temp
+      return setTemp(rows); //then return those values and set them to temp
     }
     // pr agr el active ya suspend h toh hum temp me se filter krege or respective result ko setRows me newdata bhjge set kr dege
-    const newData = temp.filter((e) => {
+    const newData = rows.filter((e) => {
       //now filter from temp where
       return e.user_status === el; //status value == parameter from dropdown
     });
     // console.log(newData);
-    setRows(newData);
+    setTemp(newData);
   }
   const handleStatusdd = (e) => {
     setStatusdd(e.target.value);
@@ -213,8 +212,8 @@ function UserList() {
 
   //patch function for updating status of user i.e. active,suspend
 
-  function patch(e, el) {
-    console.log(e, el);
+  function patch(e, el) {//e==status and el==id
+    // console.log(e, el);
     // fetch(`http://localhost:3010/data/${el}`, {
     fetch(`https://backend-ai-postgres.herokuapp.com/user/${e}/${el}`, {
       method: "PUT",
@@ -412,7 +411,7 @@ function UserList() {
           justifyContent={"space-between"}
         >
           <div style={{ display: "flex", marginBottom: "10px" }}>
-            <Typography marginTop="15px" variant="h5">
+            <Typography marginTop="15px" variant="h5" component={"span"}>
               User List
             </Typography>
 

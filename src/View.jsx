@@ -63,7 +63,7 @@ export default function MaxWidthDialog({
     setPhone(data.phone);
   }
 
-  console.log('arr from su',arr);
+  // console.log('arr from su',arr);
 
   const handleClose = () => {
     toogleStatus();
