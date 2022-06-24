@@ -184,7 +184,7 @@ export default function MaxWidthDialog({
                   // disabled
                   variant="outlined"
                   label="Status"
-                  defaultValue={arr.user[0].status}
+                  defaultValue={arr.user[0].user_status}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -244,7 +244,7 @@ export default function MaxWidthDialog({
             {/* {edit?  */}
             {edit ? (
               <div>
-                {arr.status=='Active' ? (
+                {arr.user[0].user_status=='Active' ? (
                   <div
                     onClick={() => {
                       // setEditScreen(false);
@@ -264,7 +264,7 @@ export default function MaxWidthDialog({
                 ) : (
                   <div
                     onClick={() => {
-                      patch("Active",id);
+                      patch("Activate",id);
                       // setEditScreen(false);
                       handleClose()
                       

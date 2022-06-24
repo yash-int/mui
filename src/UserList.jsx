@@ -76,57 +76,70 @@ function UserList() {
   const [searchText, setSearchText] = useState("");
   const [statusdd, setStatusdd] = React.useState("");
   const [buttonStatus, setButtonStatus] = useState(null);
-  const [clicked,setClicked]=useState(false)
+  const [clicked, setClicked] = useState(false);
 
+  const handleclicked = () => {
+    setClicked(true);
+  };
 
-  
-  const handleclicked=()=>{
-    setClicked(true)
-  }
-  
-  useEffect(()=>{
-get()
-  },[])
-  
+  useEffect(() => {
+    get();
+  }, []);
+
   useEffect(() => {
     searchFilter(searchText); //this function is fetching user data
   }, [searchText]); // yha pe array me jo bhi hum pass krte usse to data fetch hota fir passed value m agr kuch chnage hua to firse dekhega vo kya change h
-  
+
   async function get(e) {
     // const res = await fetch(`http://localhost:3010/data?q=${e}&_sort=first_name&_order=asc`);
     const res = await fetch(`https://backend-ai-postgres.herokuapp.com/users`);
-    
+
     // const {q} = req.query
 
     // data fetch yha ho rha h
     const data = await res.json();
     // console.log("All Users",data.Users);
-    
+    // console.log("data", data.Users);
+    const arr = await data.Users.filter((e) => {
+      return e.user_status != "Deactivate";
+    });
+
     // ye get function api s data fetch bhi kr rha h or search bhi
     // search k lie humne bus q pass kia h with some value as e here
     // console.log(data[0].first_name);
-    setRows(data.Users); //setting all data inside rows which is an []
-    setTemp(data.Users); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
+    setRows(arr); //setting all data inside rows which is an []
+    setTemp(arr); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
     //data na change ho isliye ek or state rkhi h temp nam ki
   }
-  const searchFilter=(el)=>{
-    let result = rows.filter((e)=>{
-      return e.first_name[0] && e==el
+  const searchFilter = (el) => {
+    if (el.length >= 2) {
+      const arr = rows.filter((e) => {
+        if (e.first_name[0] == el[0] && e.first_name[1] == el[1]) {
+          return e.first_name;
+        }
+        if (e.last_name[0] == el[0] && e.last_name[1] == el[1]) {
+          return e.first_name;
+        }
+        if (e.email_id[0] == el[0] && e.email_id[1] == el[1]) {
+          return e.email_id;
+        }
+        if (e.id[0] == el[0] && e.id[1] == el[1]) {
+          return e.id;
+        }
+      });
+      console.log(arr);
+      setTemp(arr);
+    } else {
+      setTemp(rows);
+    }
+  };
 
-    })
-    console.log("res",result);
-
-  }
-  
-
-
-  console.log('meri bat sun',rows);
-
+  // console.log("meri bat sun", rows);
 
   function filtering(el) {
     // console.log("el", el);
     //ek parameter pass krre kuch bhi jo dropdown m select hoga
-    //if el = all h to setrows m sara k sara data vse hi set hojyga jsa h 
+    //if el = all h to setrows m sara k sara data vse hi set hojyga jsa h
     if (el === "All") {
       //if value==all
       return setRows(temp); //then return those values and set them to temp
@@ -200,14 +213,12 @@ get()
 
   //patch function for updating status of user i.e. active,suspend
 
-  function patch(e,el) {
-    console.log(e,el)
+  function patch(e, el) {
+    console.log(e, el);
     // fetch(`http://localhost:3010/data/${el}`, {
-    fetch(`https://backend-ai-postgres.herokuapp.com/user/edit/${el}`, {
+    fetch(`https://backend-ai-postgres.herokuapp.com/user/${e}/${el}`, {
       method: "PUT",
-      body: JSON.stringify({
-        status: e,
-      }),
+
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
@@ -239,12 +250,12 @@ get()
       disableClickEventBubbling: true,
     },
     {
-      field:  "full_name",//yha pr first name or last name dono pass krne
+      field: "full_name", //yha pr first name or last name dono pass krne
       headerName: "Name",
       width: 170,
       disableClickEventBubbling: true,
       valueGetter: (params) =>
-      `${params.row.first_name || ''} ${params.row.last_name || ''}`,
+        `${params.row.first_name || ""} ${params.row.last_name || ""}`,
     },
 
     {
@@ -259,11 +270,7 @@ get()
       width: 240,
       disableClickEventBubbling: true,
     },
-    { field: "user_status",
-      headerName: "Status",
-      width: 120,
-      sortable: false 
-    },
+    { field: "user_status", headerName: "Status", width: 120, sortable: false },
 
     {
       field: "action",
@@ -335,7 +342,7 @@ get()
                   {!buttonStatus ? (
                     <div
                       onClick={() => {
-                        patch("Active",delUser);
+                        patch("Activate", delUser);
                         toast.success("User activated successfully", {
                           position: "bottom-right",
                         });
@@ -346,7 +353,7 @@ get()
                   ) : (
                     <div
                       onClick={() => {
-                        patch("Suspend",delUser);//FUNCTION KA NAM H PATCH
+                        patch("Suspend", delUser); //FUNCTION KA NAM H PATCH
 
                         toast.success("User suspended successfully", {
                           position: "bottom-right",
@@ -365,7 +372,7 @@ get()
                         "You will not be able to reactivate the user and retrieve their information. Are you sure you want to proceed"
                       )
                     ) {
-                      deleteUsers(delUser);
+                      patch("deactivate", delUser);
                       toast.error("User de-activated successfully", {
                         position: "bottom-right",
                       });
@@ -384,26 +391,27 @@ get()
   const [id, setId] = React.useState("");
 
   return (
-    <div style={{flexGrow: 1,}}>
+    <div style={{ flexGrow: 1 }}>
       <div
         style={{
           width: "100%",
           // marginBottom:"10px",
           backgroundColor: "white",
-          borderBottom:"1px solid black",
+          borderBottom: "1px solid black",
           height: "120px",
           position: "sticky",
-          top:0,
-          zIndex:10
+          top: 0,
+          zIndex: 10,
         }}
       >
         <ToastContainer />
-        <Box 
-        // onClick={()=>{setClicked(false)}}
-        // setClicked={"false"}
-        display="flex" justifyContent={"space-between"} 
+        <Box
+          // onClick={()=>{setClicked(false)}}
+          // setClicked={"false"}
+          display="flex"
+          justifyContent={"space-between"}
         >
-          <div style={{ display: "flex", marginBottom:"10px" }}>
+          <div style={{ display: "flex", marginBottom: "10px" }}>
             <Typography marginTop="15px" variant="h5">
               User List
             </Typography>
@@ -414,18 +422,20 @@ get()
               label="Search"
               onClick={handleclicked}
               // onClose={handleClose}
-              
-              helperText= {clicked ? "Your search will look into user ID, first name, last name, email ID, company and alternate person":""}
+
+              helperText={
+                clicked
+                  ? "Your search will look into user ID, first name, last name, email ID, company and alternate person"
+                  : ""
+              }
               variant="standard"
               onChange={(e) => {
-
                 setSearchText(e.target.value);
-               
               }}
             />
           </div>
 
-              {/* this is dropdown div */}
+          {/* this is dropdown div */}
 
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <FormControl sx={{ width: 150, marginRight: 3 }}>
@@ -456,7 +466,7 @@ get()
                 <MenuItem
                   value={"Suspend"}
                   onClick={() => {
-                    filtering("Suspend");
+                    filtering("Suspended");
                   }}
                 >
                   Suspend
@@ -465,18 +475,19 @@ get()
             </FormControl>
 
             {/* this is create user */}
-            <Create 
-            // onClick={()=>{setClicked(false)}} 
-            get={()=>{
-              get("") // in get request we have passed a parameter that is why we are passing it here like this
-            }} />
+            <Create
+              // onClick={()=>{setClicked(false)}}
+              get={() => {
+                get(""); // in get request we have passed a parameter that is why we are passing it here like this
+              }}
+            />
           </div>
         </Box>
       </div>
       <div style={{ height: 700, width: "100%" }}>
         <DataGrid
-        style={{cursor:"pointer"}}
-          rows={rows}
+          style={{ cursor: "pointer" }}
+          rows={temp}
           columns={columns}
           pageSize={20}
           rowsPerPageOptions={[20]}
@@ -487,10 +498,9 @@ get()
             }
             // console.log("e",e) //row= material ui ki row
 
-            setDelUser(e.row.id);//row?
+            setDelUser(e.row.id); //row?
             setId(e.id);
             setOpen3(true);
-
           }}
         />
 
