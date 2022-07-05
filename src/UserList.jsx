@@ -98,7 +98,7 @@ function UserList() {
     // data fetch yha ho rha h
     const data = await res.json();
     // console.log("All Users",data.Users);
-    // console.log("data", data.Users);
+    console.log("data", data.Users);
     const arr = await data.Users.filter((e) => {
       return e.user_status != "Deactivate";
     });
@@ -109,12 +109,17 @@ function UserList() {
     setRows(arr); //setting all data inside rows which is an []
     setTemp(arr); // ye yha filtering k lie use hora, kuch ni bus ek state or bnai h jisme ho kya rha h ki original
     //data na change ho isliye ek or state rkhi h temp nam ki
+    // console.log(arr);
   }
-  const searchFilter = (el) => {
+  const searchFilter = (el) => {//filter is a godfather
     if (el.length >= 2) {
       const arr = rows.filter((e) => {
-        if (e.first_name[0].toLowerCase() ==el || e.first_name[0].toUpperCase() == el[0] && e.first_name[1].toLowerCase() == el[1] || e.first_name[0].toUpperCase()==el[1]) {
-          return e.first_name;
+        if (e.first_name[0].toLowerCase() == el[0].toLowerCase() ||
+            e.first_name[0].toLowerCase() == el[0].toLowerCase() &&
+            e.first_name[1].toLowerCase() == el[1].toLowerCase() ||
+            e.first_name[0].toLowerCase() == el[1].toLowerCase()) {
+
+          return e.first_name;// big game
         }
         if (e.last_name[0] == el[0] && e.last_name[1] == el[1]) {
           return e.first_name;
@@ -193,35 +198,22 @@ function UserList() {
     setOpen(false);
   };
 
-  function deleteUsers(e) {
-    // console.log(e);
-    fetch(`http://localhost:3010/data/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => {
-        res.json().then((ress) => {
-          setAnchorEl(false);
-          get(searchText);
-          // console.log("delete");
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
+  
   //patch function for updating status of user i.e. active,suspend
 
-  function patch(e, el) {//e==status and el==id
+  function patch(status, el) {//e==status and el==id
     // console.log(e, el);
     // fetch(`http://localhost:3010/data/${el}`, {
-    fetch(`https://backend-ai-postgres.herokuapp.com/user/${e}/${el}`, {
+    fetch(`https://backend-ai-postgres.herokuapp.com/user/${status}/${el}`, {
       method: "PUT",
 
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
+    
+
+
       .then((res) => {
         res.json().then((ress) => {
           setAnchorEl(false);
@@ -511,7 +503,7 @@ function UserList() {
             setEditScreen={setEditScreen}
             editScreen={editScreen}
             id={id}
-            deleteUsers={deleteUsers}
+            // deleteUsers={deleteUsers}
             patch={patch}
             buttonStatus={buttonStatus}
           />

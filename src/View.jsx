@@ -243,7 +243,7 @@ export default function MaxWidthDialog({
 
             {/* {edit?  */}
             {edit ? (
-              <div>
+              <div style={{marginLeft:"5px"}}>
                 {arr.user[0].user_status=='Active' ? (
                   <div
                     onClick={() => {
@@ -256,13 +256,14 @@ export default function MaxWidthDialog({
                       });
                     }}
                   >
-                    <Button variant="contained">
+                    <Button variant="contained" >
 
                     Suspend
                     </Button>
                   </div>
                 ) : (
                   <div
+                  style={{marginLeft:"5px"}}
                     onClick={() => {
                       patch("Activate",id);
                       // setEditScreen(false);
